@@ -75,8 +75,24 @@ public:
         }
     }
     void emplace_level_order(vector<vector<int>>& res, TreeNode* root) {
-        // [ (curr_layer_num , node) ]
-        queue<pair<int, TreeNode*>> queue;
+        queue<TreeNode*> queue;
+        queue.push(root);
+
+        while (!queue.empty()) {
+            int currentLevelSize = static_cast<int>(queue.size());
+            res.push_back(vector<int>());
+            for (int i = 1; i <= currentLevelSize; ++i) {
+                auto node = queue.front();
+                queue.pop();
+                res.back().push_back(node->val);
+                if (node->left) {
+                    queue.push(node->left);
+                }
+                if (node->right) {
+                    queue.push(node->right);
+                }
+            }
+        }
     }
     vector<vector<int>> levelOrder(TreeNode* root) {
         vector<vector<int>> res;
@@ -84,7 +100,7 @@ public:
         if (!root) {
             return res;
         }
-        hash_level_order(res, root);
+        emplace_level_order(res, root);
 
         return res;
     }
