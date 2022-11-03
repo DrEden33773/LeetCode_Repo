@@ -13,19 +13,14 @@ class Solution {
 public:
     // sequence => ababc
     // word => ab
+
+    // Should use `DynamicProgramming` and `Enumerating`
+    // Or `DynamicProgramming` and `KMP`
+
+    // Sequence DP
     int maxRepeating(const string& sequence, const string& word) {
         int res = 0;
-        if (word.size() > sequence.size()) {
-            return 0;
-        }
-        int seq_size          = static_cast<int>(sequence.size());
-        int word_size         = static_cast<int>(word.size());
-        int remained_seq_size = seq_size;
-        for (int i = 0; i < seq_size; ++i) {
-            if (remained_seq_size < word_size) {
-                break;
-            }
-        }
+
         return res;
     }
 };
