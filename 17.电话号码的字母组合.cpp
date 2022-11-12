@@ -30,28 +30,32 @@ public:
         map['8'] = "tuv";
         map['9'] = "wxyz";
 
-        queue<string> the_queue;
-        string        front_str;
+        queue<string> queue;
 
-        for (const char& letter : digits) {
-            string& curr_comb = map[letter];
+        // 1. init the queue
+        for (const auto& curr_char : map[digits[0]]) {
+            string toPush;
+            toPush += curr_char;
+            queue.push(toPush);
+        }
 
-            size_t the_front_str_size = the_queue.front().size();
-            while (the_queue.front().size() <= the_front_str_size) {
-                if (!the_queue.empty()) {
-                    front_str = the_queue.front();
-                    the_queue.pop();
+        // 2. bfs
+        for (size_t i = 1; i < digits.size(); ++i) {
+            const string& curr_comb       = map[digits[i]];
+            size_t        curr_level_size = queue.size();
+            while (curr_level_size--) {
+                for (auto& curr_char : curr_comb) {
+                    string toPush = queue.front() + curr_char;
+                    queue.push(toPush);
                 }
-                for (const char& curr_char : curr_comb) {
-                    string to_push = front_str + curr_char;
-                    the_queue.push(to_push);
-                }
+                queue.pop();
             }
         }
 
-        while (!the_queue.empty()) {
-            res.push_back(the_queue.front());
-            the_queue.pop();
+        // 3. export the queue
+        while (!queue.empty()) {
+            res.push_back(queue.front());
+            queue.pop();
         }
 
         return res;
